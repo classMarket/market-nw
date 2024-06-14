@@ -18,7 +18,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer seq; // PK (Primary Key)
 
-    @Column(name = "email_id")
+    @Column(name = "email_id",unique = true)
     private String emailId; // 이메일
 
     private String password; // 비밀번호
@@ -67,7 +67,7 @@ public class User {
     @Column(name = "mod_id")
     private String modId; // 수정자 ID
 
-    private String role; // 역할 (권한)
+    private String role; // 역할 (권한) -> Admin,User
 
     @Column(name = "last_login")
     private LocalDateTime lastLogin; // 마지막 로그인 날짜
