@@ -2,7 +2,7 @@ package market_nw.market_nw.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import market_nw.market_nw.entity.User;
+import market_nw.market_nw.entity.user.User;
 import market_nw.market_nw.repository.UserRepository;
 import org.springframework.stereotype.Component;
 

@@ -2,15 +2,13 @@ package market_nw.market_nw.service;
 
 import lombok.RequiredArgsConstructor;
 import market_nw.market_nw.dto.LoginDto;
-import market_nw.market_nw.entity.User;
+import market_nw.market_nw.entity.user.User;
 import market_nw.market_nw.repository.UserRepository;
 import market_nw.market_nw.security.JwtTokenProvider;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor

@@ -40,3 +40,8 @@ jwt:
   secret: This1Is2Test4What1ISay6IsTestT4oTestAndTestA7ndManyToOneIsTestAn8dTest
   expiration: 3600000
 #  1시간
+
+google:
+  client:
+    id: 931633722596-f8ov1n8n3o12u9mkt0h51g7hglfgdsdi.apps.googleusercontent.com
+    pw: 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
