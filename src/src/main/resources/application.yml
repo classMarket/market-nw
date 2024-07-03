@@ -1,0 +1,53 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      enabled: true
+
+spring:
+  profiles:
+    active:
+      - dev
+
+---
+
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile:
+        - dev
+  datasource:
+    #    외부에서 작업해서 jdbc서버에 접속하지 못하였습니다. 다음달부터 접속 가능할것 같습니다.
+    url: jdbc:mysql://localhost:3307/marketdb
+    username: root
+    #    외부작업:1214 내부작업 1234 jdbc서버 접속시 없앨예정입니다.
+    password: 1214
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: ${DB_CONNECTION:jdbc:mysql://222.122.203.214:3306/marketdb?&characterEncoding=UTF-8&serverTimezone=Asia/Seoul}
+  #    username: ${DB_USERNAME:marketdbadmin}
+  #    password: ${DB_PASSWORD:rkawkRkd1!}
+  #    driver-class-name: ${DB_DRIVER_CLASS_NAME:com.mysql.cj.jdbc.Driver}
+
+  output:
+    ansi:
+      enabled: always
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+jwt:
+  secret: This1Is2Test4What1ISay6IsTestT4oTestAndTestA7ndManyToOneIsTestAn8dTest
+  expiration: 3600000
+#  1시간
+
+google:
+  client:
+    id: 931633722596-f8ov1n8n3o12u9mkt0h51g7hglfgdsdi.apps.googleusercontent.com
+    pw: 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
