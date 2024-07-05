@@ -18,8 +18,8 @@ public class SocialLogin extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long socialLoginId;
 
-    @Enumerated(EnumType.STRING)
-    private SocialPlatformType platformType;
+    @Enumerated(EnumType.STRING) //Original:열거형,String:문자열
+    private SocialPlatformType platformType; //플랫폼명
 
     private String accessToken;
 

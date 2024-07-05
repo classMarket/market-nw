@@ -16,7 +16,7 @@ public class LoginController {
     @Value("${google.client.pw}")
     private String googleClientPw;
 
-    @PostMapping("/api/v1/oauth2/google")
+    @PostMapping("/oauth/google")
     public String loginUrlGoogle(){
 //        요청시 로그인 가능한 주소가 날라가게 됩니다.
         String reqUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + googleClientId + "&redirect_uri=http://localhost:8080/api/v1/oauth2/google&response_type=code&scope=email%20profile%20openid&access_type=offline";

@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-public class Image extends AuditingEntity {
+public class Image extends AuditingEntity { //이미지주소 db저장용
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

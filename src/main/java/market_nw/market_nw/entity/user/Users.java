@@ -16,7 +16,7 @@ import java.util.UUID;
 public class Users extends AuditingEntity {
 
     @Id
-    private UUID verifiedId;
+    private UUID verifiedId; //id 식별값
 
     @Column(unique = true)
     private String userId;

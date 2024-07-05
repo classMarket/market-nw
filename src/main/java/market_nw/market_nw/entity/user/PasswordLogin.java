@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PasswordLogin extends AuditingEntity {
+public class PasswordLogin extends AuditingEntity { //패스워드 저장용.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long passwordLoginId;

@@ -22,21 +22,21 @@ public class UserProfile extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userProfileId;
 
-    private String name;
+    private String name; //이름
 
-    private String city;
+    private String city; //도시
 
-    private String dong;
+    private String dong; //동
 
-    private String gu;
+    private String gu; //구
 
-    private LocalDate birth;
-
-    @Column(unique = true)
-    private String phoneNumber;
+    private LocalDate birth; //생년월일
 
     @Column(unique = true)
-    private String nickname;
+    private String phoneNumber; //휴대폰번호
+
+    @Column(unique = true)
+    private String nickname; //닉네임
 
     @OneToOne
     @JoinColumn(name = "user_id")
