@@ -24,7 +24,7 @@ public class MainController {
 //Binding Result 는 서버 사이드 렌더링 에서 쓰이기에 없앴습니다.
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto) {
-        String token = userService.login(loginDto); //로그인 성공시 토큰으로 변환
+        String token = userService.normal_login(loginDto); //로그인 성공시 토큰으로 변환
 
         if (token == null) {
             Map<String, String> response = new HashMap<>();

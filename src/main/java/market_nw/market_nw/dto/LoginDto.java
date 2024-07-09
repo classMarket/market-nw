@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 public class LoginDto {
 
     @NotEmpty(message = "이메일은 필수 항목입니다.")
-    private String email; //email로찾는데 id보다 직관성이 있어보임..
+    private String email; //email로찾는데 id보다 직관성이 있어보임.
 
     @NotEmpty(message = "비밀번호는 필수 항목입니다.")
     private String password;

@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class EmailAuthentication extends AuditingEntity { //이메일 인증번호 db저장 -> 왜 필요한지 알아보기
+public class EmailAuthentication extends AuditingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

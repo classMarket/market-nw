@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "market_user")
-public class User { //구버전
+public class User_test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer seq; // PK (Primary Key)

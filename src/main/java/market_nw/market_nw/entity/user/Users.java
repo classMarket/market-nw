@@ -16,13 +16,16 @@ import java.util.UUID;
 public class Users extends AuditingEntity {
 
     @Id
-    private UUID verifiedId; //id 식별값
+    private UUID verifiedId;
 
     @Column(unique = true)
     private String userId;
 
     @Enumerated(EnumType.STRING)
     private SignUpType signUpType;
+
+
+    private String role; // 역할 (권한) -> Admin,User
 
     @Builder
     public Users (String userId, SignUpType signUpType) {

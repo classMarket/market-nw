@@ -1,4 +1,4 @@
-package market_nw.market_nw.dto;
+package market_nw.market_nw.entity;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

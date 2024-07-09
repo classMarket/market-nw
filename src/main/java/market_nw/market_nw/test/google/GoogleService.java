@@ -1,30 +1,25 @@
 package market_nw.market_nw.test.google;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
-@CrossOrigin("*")
-public class LoginController {
+@Service
+@RequiredArgsConstructor
+public class GoogleService {
+
     @Value("${google.client.id}")
     private String googleClientId;
     @Value("${google.client.pw}")
     private String googleClientPw;
 
-    @PostMapping("/oauth/google")
-    public String loginUrlGoogle(){
-//        요청시 로그인 가능한 주소가 날라가게 됩니다.
-        String reqUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + googleClientId + "&redirect_uri=http://localhost:8080/api/v1/oauth2/google&response_type=code&scope=email%20profile%20openid&access_type=offline";
-        return reqUrl;
-    }
 
-    @GetMapping("/api/v1/oauth2/google")
-    public String loginGoogle(@RequestParam(value = "code") String authCode){
+    public String test(String authCode){
         RestTemplate restTemplate = new RestTemplate();
         GoogleRequest googleOAuthRequestParam = GoogleRequest
                 .builder()
@@ -38,16 +33,18 @@ public class LoginController {
         Map<String, String> map=new HashMap<>();
         map.put("id_token",jwtToken);
         ResponseEntity<GoogleInfResponse> resultEntity2 = restTemplate.postForEntity("https://oauth2.googleapis.com/tokeninfo", map, GoogleInfResponse.class);
-//        System.out.println("resultentity란:" + resultEntity); //googleresponse
-//        System.out.println("resultentity2란:" + resultEntity2); //googleinfresponse
-//        System.out.println("googleOAuthRequestParam이란 : " + googleOAuthRequestParam); //GoogleRequest
-        //저장할?내용들
+
         System.out.println("사용자이름:" + resultEntity2.getBody().getName());
         System.out.println("발급한 회사:" + resultEntity2.getBody().getIss());
-        String email=resultEntity2.getBody().getEmail();
-        return email;
+        System.out.println("사용자 이메일:" + resultEntity2.getBody().getEmail());
+        System.out.println("1");
+
+        return "a";
     }
 }
+
+
+
 
 //
 //resultentity란:<200,GoogleResponse(access_token=ya29.a0AXooCgu2wkC090sK8EUgFn91YDoM6IyTZ8kPQjp6KMj8zDJQp0fJVpNoGd_Dt3FhfLAP4kC8EWggHnmi83_7BuuIP1nRqwI9zFbn-OkujAPRC0E6heOVS-cJ-wchjCgytEJr6jf6vVdU5AqDAW2AET8GWTtxJPi8MKL0aCgYKARoSARMSFQHGX2MizYe3SOHPE0csZ8t8TxjR6Q0171,
