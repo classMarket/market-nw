@@ -1,17 +1,9 @@
 package market_nw.market_nw.test;
 
 import lombok.RequiredArgsConstructor;
-import market_nw.market_nw.test.google.GoogleInfResponse;
-import market_nw.market_nw.test.google.GoogleRequest;
-import market_nw.market_nw.test.google.GoogleResponse;
 import market_nw.market_nw.test.google.GoogleService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,7 +11,6 @@ import java.util.Map;
 public class LoginController {
 
     private final GoogleService googleService;
-    private final UserRepository usersRepository;
 
     @Value("${google.client.id}")
     private String googleClientId;
@@ -36,9 +27,7 @@ public class LoginController {
     @GetMapping("/api/v1/oauth2/google")
     public String loginGoogle(@RequestParam(value = "code") String authCode){
 
-        googleService.test(authCode); //여기서 jwt 토큰 생성해서 반환해줄것
-
-        return "hello"; //jwt 토큰만 반환해줄것.
+        return googleService.processGoogleLogin(authCode); //여기서 jwt 토큰 생성해서 반환해줄것
     }
 }
 

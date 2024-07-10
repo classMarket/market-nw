@@ -32,6 +32,10 @@ public class UserProfile extends AuditingEntity {
 
     private LocalDate birth;
 
+    private boolean sms_agreement;//sms 수신여부
+
+    private boolean email_agreement; //email 수신여부
+
     @Column(unique = true)
     private String phoneNumber;
 
@@ -47,7 +51,7 @@ public class UserProfile extends AuditingEntity {
     private Image image;
 
     @Builder
-    public UserProfile(String name, String city, String dong, String gu, LocalDate birth, String phoneNumber, String nickname, Image image, Users users) {
+    public UserProfile(String name, String city, String dong, String gu, LocalDate birth, String phoneNumber, String nickname, Image image, Users users, Boolean email_agreement, Boolean sms_agreement) {
         this.name = name;
         this.city = city;
         this.dong = dong;
@@ -55,6 +59,8 @@ public class UserProfile extends AuditingEntity {
         this.birth = birth;
         this.phoneNumber = phoneNumber;
         this.nickname = nickname;
+        this.email_agreement = email_agreement;
+        this.sms_agreement = sms_agreement;
         this.user = users;
         this.image = image;
     }

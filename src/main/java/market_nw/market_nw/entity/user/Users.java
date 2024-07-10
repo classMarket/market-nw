@@ -24,13 +24,13 @@ public class Users extends AuditingEntity {
     @Enumerated(EnumType.STRING)
     private SignUpType signUpType;
 
-
     private String role; // 역할 (권한) -> Admin,User
 
     @Builder
-    public Users (String userId, SignUpType signUpType) {
+    public Users (String userId, SignUpType signUpType,String role) {
         this.verifiedId = UUID.randomUUID();
         this.userId = userId;
+        this.role = role;
         this.signUpType = signUpType;
     }
 }

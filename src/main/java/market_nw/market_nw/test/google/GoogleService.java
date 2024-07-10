@@ -1,6 +1,12 @@
 package market_nw.market_nw.test.google;
 
 import lombok.RequiredArgsConstructor;
+import market_nw.market_nw.entity.user.PasswordLogin;
+import market_nw.market_nw.entity.user.Users;
+import market_nw.market_nw.repository.user.SocialLoginRepository;
+import market_nw.market_nw.repository.user.UsersRepository;
+import market_nw.market_nw.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -8,10 +14,18 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
+import static market_nw.market_nw.entity.user.SocialPlatformType.GOOGLE;
 
 @Service
 @RequiredArgsConstructor
 public class GoogleService {
+
+    private final SocialLoginRepository socialLoginRepository;
+    private final UserService userService;
+
+
 
     @Value("${google.client.id}")
     private String googleClientId;
@@ -19,7 +33,7 @@ public class GoogleService {
     private String googleClientPw;
 
 
-    public String test(String authCode){
+    public String processGoogleLogin(String authCode){
         RestTemplate restTemplate = new RestTemplate();
         GoogleRequest googleOAuthRequestParam = GoogleRequest
                 .builder()
@@ -37,10 +51,13 @@ public class GoogleService {
         System.out.println("사용자이름:" + resultEntity2.getBody().getName());
         System.out.println("발급한 회사:" + resultEntity2.getBody().getIss());
         System.out.println("사용자 이메일:" + resultEntity2.getBody().getEmail());
-        System.out.println("1");
-
-        return "a";
+        return userService.social_login(GOOGLE,resultEntity2.getBody().getEmail()); //jwt토큰 반환하는걸로 설정해야함
     }
+
+
+
+
+
 }
 
 
