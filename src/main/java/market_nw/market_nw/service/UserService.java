@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
     }
 
     //소셜로그인용
-    public String social_login(SocialPlatformType company, String email) {
+    public String social_login(SocialPlatformType company, String email,String acessToken, String refreshToken) {
         Optional<Users> existingUser = usersRepository.findByUserId(email);
         Users user;
         if (existingUser.isEmpty()) { //신규유저일시
@@ -59,8 +59,11 @@ public class UserService implements UserDetailsService {
             SocialLogin socialLogin = SocialLogin.builder()
                     .platformType(company)
                     .email(email)
+                    .acessToken(acessToken)
+                    .refreshToken(refreshToken)
                     .user(user)
                     .build();
+
             socialLoginRepository.save(socialLogin);
             System.out.println("신규유저입니다.");
 

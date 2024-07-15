@@ -20,15 +20,27 @@ public class SocialLogin extends AuditingEntity {
     private SocialPlatformType platformType; // 회사
 
     private String email; // 식별하는 값
+    private String accessToken; // 액세스 토큰
+    private String refreshToken; // 리프레시 토큰
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private Users user;
 
     @Builder
-    public SocialLogin(SocialPlatformType platformType, String email, Users user) {
+    public SocialLogin(SocialPlatformType platformType, String email, Users user, String acessToken, String refreshToken) {
         this.platformType = platformType;
         this.email = email;
         this.user = user;
+        this.accessToken= acessToken;
+        this.refreshToken = refreshToken;
     }
+
+    public void updateAccessToken(String accessToken){
+        this.accessToken = accessToken;
+    }
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
+    }
+
 }
