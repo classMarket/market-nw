@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 import static market_nw.market_nw.entity.user.SignUpType.SOCIAL;
-import static market_nw.market_nw.entity.user.SocialPlatformType.GOOGLE;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +24,7 @@ public class UserService implements UserDetailsService {
     private final SocialLoginRepository socialLoginRepository;
     private final UsersRepository usersRepository;
     private final JwtTokenProvider jwtTokenProvider;
+
 
     public String normal_login(LoginDto loginDto) {
         Optional<PasswordLogin> optionalPasswordLogin = passWordLoginRepository.findByEmail(loginDto.getEmail());
@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
     }
 
     //소셜로그인용
-    public String social_login(SocialPlatformType company, String email,String acessToken, String refreshToken) {
+    public String social_login(SocialPlatformType company, String email,String accessToken, String refreshToken) {
         Optional<Users> existingUser = usersRepository.findByUserId(email);
         Users user;
         if (existingUser.isEmpty()) { //신규유저일시
@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
             SocialLogin socialLogin = SocialLogin.builder()
                     .platformType(company)
                     .email(email)
-                    .acessToken(acessToken)
+                    .accessToken(accessToken)
                     .refreshToken(refreshToken)
                     .user(user)
                     .build();
@@ -69,25 +69,19 @@ public class UserService implements UserDetailsService {
 
         } else {//기존유저일시
             user = existingUser.get();
+            Optional<SocialLogin> optionalSocialLogin = socialLoginRepository.findByEmail(email);
+
+            if (optionalSocialLogin.isPresent()) {
+                SocialLogin socialLogin = optionalSocialLogin.get();
+                socialLogin.updateToken(accessToken, refreshToken); //토큰 업데이트
+                socialLoginRepository.save(socialLogin);
+            } else {
+                System.out.println("기존 유저이지만 정보를 찾을 수 없습니다.");
+            }
+
             System.out.println("기존유저입니다.");
         }
         return jwtTokenProvider.createToken(user.getUserId(), user.getRole()); //로그인성공시 토큰반환
     }
 
-
-
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        Optional<PasswordLogin> optionalPasswordLogin = passWordLoginRepository.findByEmail(email);
-//        Users users = usersRepository.findById(optionalPasswordLogin.get().getUsers().getVerifiedId());
-//        User_test user = usersRepository.findByEmail(username);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        return org.springframework.security.core.userdetails.User.builder()
-//                .username(user.getUserName())
-//                .password(user.getPassword())
-//                .roles(user.getRole())
-//                .build();
-//    }
 }

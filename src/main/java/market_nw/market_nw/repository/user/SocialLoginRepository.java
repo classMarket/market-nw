@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface SocialLoginRepository extends JpaRepository<SocialLogin, Long> {
-    Optional<PasswordLogin> findByEmail(String email);
+    Optional<SocialLogin> findByEmail(String email);
 }

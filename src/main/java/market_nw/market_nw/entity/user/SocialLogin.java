@@ -28,19 +28,20 @@ public class SocialLogin extends AuditingEntity {
     private Users user;
 
     @Builder
-    public SocialLogin(SocialPlatformType platformType, String email, Users user, String acessToken, String refreshToken) {
+    public SocialLogin(SocialPlatformType platformType, String email, Users user, String accessToken, String refreshToken) {
         this.platformType = platformType;
         this.email = email;
         this.user = user;
-        this.accessToken= acessToken;
+        this.accessToken= accessToken;
         this.refreshToken = refreshToken;
     }
 
-    public void updateAccessToken(String accessToken){
+
+    public void updateToken(String accessToken,String refreshToken){
         this.accessToken = accessToken;
-    }
-    public void updateRefreshToken(String refreshToken){
         this.refreshToken = refreshToken;
     }
+
+
 
 }
