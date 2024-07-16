@@ -41,8 +41,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<Users> userOptional = usersRepository.findByUserId(email);
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("유저찾기에 실패하였습니다. : " + email);
+        }
+        Users user = userOptional.get();
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getUserId())
+                .password("")
+                .roles(user.getRole())
+                .build();
     }
 
     //소셜로그인용

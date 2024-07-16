@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-public class MainController {
+public class LoginController {
 
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -37,6 +37,9 @@ public class MainController {
 
     @GetMapping("/test")
     public Claims test(@RequestHeader("Authorization") String token) {
+/*
+        System.out.println("여기옴");
+*/
         return jwtTokenProvider.getClaims(token);
     }
 

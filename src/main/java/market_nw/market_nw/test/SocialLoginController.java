@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
-public class LoginController {
+public class SocialLoginController {
 
     private final GoogleService googleService;
 
