@@ -38,7 +38,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -52,3 +52,10 @@ google:
   client:
     id: 931633722596-f8ov1n8n3o12u9mkt0h51g7hglfgdsdi.apps.googleusercontent.com
     pw: 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
+
+
+kakao:
+  client:
+    id: 3f63da9ff5848bb11062696b2908027b
+  redirect:
+    uri: http://localhost:8080/api/v1/oauth2/kakao

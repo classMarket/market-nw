@@ -1,4 +1,4 @@
-package market_nw.market_nw.test.google;
+package market_nw.market_nw.social.google.dto;
 
 import lombok.Builder;
 import lombok.Data;

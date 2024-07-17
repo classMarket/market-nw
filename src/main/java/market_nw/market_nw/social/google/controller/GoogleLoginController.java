@@ -1,14 +1,14 @@
-package market_nw.market_nw.test;
+package market_nw.market_nw.social.google.controller;
 
 import lombok.RequiredArgsConstructor;
-import market_nw.market_nw.test.google.GoogleService;
+import market_nw.market_nw.social.google.service.GoogleService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin("*")
-public class SocialLoginController {
+public class GoogleLoginController {
 
     private final GoogleService googleService;
 

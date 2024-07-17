@@ -31,7 +31,6 @@ public class UserService implements UserDetailsService {
         if(optionalPasswordLogin.isPresent()) {
             PasswordLogin passwordLogin = optionalPasswordLogin.get();
             Users users = passwordLogin.getUsers();
-            System.out.println("test용 role" + users.getRole());
 
             if((passwordLogin.getPassword().equals(loginDto.getPassword()))){
                 return jwtTokenProvider.createToken(users.getUserId(), users.getRole()); //로그인성공시 토큰반환
@@ -49,7 +48,7 @@ public class UserService implements UserDetailsService {
         Users user = userOptional.get();
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUserId())
-                .password("")
+                .password(user.getUserId())
                 .roles(user.getRole())
                 .build();
     }

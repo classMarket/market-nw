@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login","/api/v1/oauth2/google").permitAll() // 로그인 요청은 예외 처리->회원 가입은??
+                .antMatchers("/login","/api/v1/oauth2/google","/api/v1/oauth2/kakao").permitAll() // 로그인 요청은 예외 처리->회원 가입은??
 //                .antMatchers("/**").permitAll() //테스트용
                 .anyRequest().authenticated()
                 .and()
