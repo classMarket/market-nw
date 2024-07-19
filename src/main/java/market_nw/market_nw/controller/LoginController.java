@@ -3,6 +3,7 @@ package market_nw.market_nw.controller;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import market_nw.market_nw.dto.LoginDto;
 import market_nw.market_nw.security.JwtTokenProvider;
 import market_nw.market_nw.service.UserService;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
@@ -36,11 +38,9 @@ public class LoginController {
     }
 
     @GetMapping("/test")
-    public Claims test(@RequestHeader("Authorization") String token) {
-/*
-        System.out.println("여기옴");
-*/
-        return jwtTokenProvider.getClaims(token);
+    public ResponseEntity<Claims> test(@RequestHeader("Authorization") String token) {
+        Claims claims = jwtTokenProvider.getClaims(token);
+        return ResponseEntity.ok().body(claims);
     }
 
 

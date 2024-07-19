@@ -38,7 +38,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 //            System.out.println("email이란:" + email);
 //            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             UserDetails userDetails = userService.loadUserByUsername(email);
-            System.out.println("userDetails이란:" + userDetails);
+//            System.out.println("userDetails이란:" + userDetails);
             if (userDetails != null) {
 //                System.out.println("유효성 있으면서 정보가 있음");
                 var auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

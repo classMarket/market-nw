@@ -3,12 +3,12 @@ package market_nw.market_nw.social.kakao.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import market_nw.market_nw.social.kakao.dto.KakaoUserInfoResponseDto;
+import market_nw.market_nw.social.kakao.dto.KakaoTokenResponseDto;
 import market_nw.market_nw.social.kakao.service.KakaoService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -32,16 +32,19 @@ public class KakaoLoginController {
     }
 
     @GetMapping("/api/v1/oauth2/kakao")
-    public ResponseEntity<?> callback(@RequestParam("code") String code) {
-        System.out.println("여기까지는 오나:");
-        String accessToken = kakaoService.getAccessTokenFromKakao(code);
-        System.out.println("여기는?");
-
-        KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(accessToken);
-        System.out.println("이게 유저 정보:" + userInfo.getKakaoAccount());
-
-        return new ResponseEntity<>(HttpStatus.OK);//jwt토큰으로 반환하게하기
+    public ResponseEntity<String> callback(@RequestParam("code") String code) {
+        try {
+            KakaoTokenResponseDto kakaoTokenResponseDto = kakaoService.getAccessTokenFromKakao(code, "AccessToken");
+            String jwtToken = kakaoService.getJwtTokenFromKakao(kakaoTokenResponseDto.getAccessToken(), kakaoTokenResponseDto.getRefreshToken());//jwt토큰획득
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwtToken);
+            System.out.println("jwt토큰이란:" + jwtToken);
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body("JWT token Kakao 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("JWT token Kakao 실패: " + e.getMessage());
+        }
     }
-
-
 }

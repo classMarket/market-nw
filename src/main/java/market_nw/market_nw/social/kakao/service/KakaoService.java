@@ -1,8 +1,8 @@
 package market_nw.market_nw.social.kakao.service;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import market_nw.market_nw.service.UserService;
 import market_nw.market_nw.social.kakao.dto.KakaoTokenResponseDto;
 import market_nw.market_nw.social.kakao.dto.KakaoUserInfoResponseDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +14,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
+import static market_nw.market_nw.entity.user.SocialPlatformType.KAKAO;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class KakaoService {
+
+    private final UserService userService;
 
     @Value("${kakao.client.id}")
     private String clientId;
@@ -25,13 +29,9 @@ public class KakaoService {
     private String KAUTH_TOKEN_URL_HOST="https://kauth.kakao.com";
     private String KAUTH_USER_URL_HOST="https://kapi.kakao.com";
 
-//    public KakaoService(@Value("${kakao.client_id}") String clientId) {
-//        this.clientId = clientId;
-//        KAUTH_TOKEN_URL_HOST = "https://kauth.kakao.com";
-//        KAUTH_USER_URL_HOST = "https://kapi.kakao.com";
-//    }
 
-    public String getAccessTokenFromKakao(String code) {
+    public KakaoTokenResponseDto getAccessTokenFromKakao(String code, String tokenvalue) {
+        System.out.println("이게 오류인가:" + clientId);
         System.out.println("code란:" + code);
         KakaoTokenResponseDto kakaoTokenResponseDto;
         try {
@@ -52,18 +52,18 @@ public class KakaoService {
                     .bodyToMono(KakaoTokenResponseDto.class)
                     .block();
         } catch (WebClientResponseException e) {
-            // WebClientResponseException은 Kakao API의 4xx 또는 5xx 오류를 포함하는 예외입니다.
             throw new RuntimeException("Kakao API 요청 중 오류 발생: " + e.getRawStatusCode() + " " + e.getStatusText());
         }
 
-        log.info(" [Kakao Service] Access Token ------> {}", kakaoTokenResponseDto.getAccessToken());
-        log.info(" [Kakao Service] Refresh Token ------> {}", kakaoTokenResponseDto.getRefreshToken());
-        log.info(" [Kakao Service] Id Token ------> {}", kakaoTokenResponseDto.getIdToken());
+        log.info("Access Token 이란 : ", kakaoTokenResponseDto.getAccessToken());
+        log.info("Refresh Token 이란 : ", kakaoTokenResponseDto.getRefreshToken());
+        log.info("idtoken 이란 : ", kakaoTokenResponseDto.getIdToken());
+            return kakaoTokenResponseDto;
 
-        return kakaoTokenResponseDto.getAccessToken();
+
     }
 
-    public KakaoUserInfoResponseDto getUserInfo(String accessToken) {
+    public String getJwtTokenFromKakao(String accessToken, String refreshToken) {
         KakaoUserInfoResponseDto userInfo = WebClient.create(KAUTH_USER_URL_HOST)
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -77,10 +77,11 @@ public class KakaoService {
                 .bodyToMono(KakaoUserInfoResponseDto.class)
                 .block();
 
-        log.info("[ Kakao Service ] Auth ID ---> {} ", userInfo.getId());
-        log.info("[ Kakao Service ] NickName ---> {} ", userInfo.getKakaoAccount().getProfile().getNickName());
-        log.info("[ Kakao Service ] ProfileImageUrl ---> {} ", userInfo.getKakaoAccount().getProfile().getProfileImageUrl());
+//        log.info("[ Kakao Service ] Auth ID ---> {} ", userInfo.getId());
+//        log.info("[ Kakao Service ] NickName ---> {} ", userInfo.getKakaoAccount().getProfile().getNickName());
+//        log.info("[ Kakao Service ] ProfileImageUrl ---> {} ", userInfo.getKakaoAccount().getProfile().getProfileImageUrl());
 
-        return userInfo;
+        return userService.social_login(KAKAO,userInfo.kakaoAccount.getEmail(),accessToken,refreshToken); //jwt토큰 반환
+
     }
 }

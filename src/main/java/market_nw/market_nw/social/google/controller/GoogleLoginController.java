@@ -3,6 +3,9 @@ package market_nw.market_nw.social.google.controller;
 import lombok.RequiredArgsConstructor;
 import market_nw.market_nw.social.google.service.GoogleService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,9 +29,18 @@ public class GoogleLoginController {
     }
 
     @GetMapping("/api/v1/oauth2/google")
-    public String loginGoogle(@RequestParam(value = "code") String authCode){
-
-        return googleService.processGoogleLogin(authCode); //여기서 jwt 토큰 생성해서 반환해줄것
+    public ResponseEntity<String> loginGoogle(@RequestParam(value = "code") String authCode) {
+        try {
+            String jwtToken = googleService.processGoogleLogin(authCode);//토큰생성
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwtToken);//헤더에 추가
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body("JWT token 구글 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("JWT token 구글 실패: " + e.getMessage());
+        }
     }
 }
 

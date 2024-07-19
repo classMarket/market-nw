@@ -24,7 +24,6 @@ import static market_nw.market_nw.entity.user.SocialPlatformType.GOOGLE;
 @RequiredArgsConstructor
 public class GoogleService {
 
-    private final SocialLoginRepository socialLoginRepository;
     private final UserService userService;
 
 
