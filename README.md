@@ -1,5 +1,3 @@
-코드 테스트용입니다.
-
 #### src/main/resources/application-config.properties
 ```
 spring.datasource.url=jdbc:mysql://[hostname]:[port]/[database]
@@ -9,91 +7,90 @@ spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 jwt.secret=[key]
 file.directory=[path]
+google.client.id:[id]
+google.client.pw:[pw]
+kakao.client.id:[id]
+kakao.redirect.uri:[uri]
 ```
 
 
 
 ## 요청 예시
 
-#### **POST /authenticate**
+#### **POST /login**
 ```json
 {
-    "username": "user1",
-    "password": "password1"
+    "email": "user@email.com",
+    "password": "password"
 }
 ```
 
-#### **GET /chat/messages**
+#### **Get /test**
 ```
-GET /chat/messages
+GET /test
 Authorization: Bearer <JWT_TOKEN>
 ```
 
-#### **POST /chat/messages**
-```json
-{
-    "sender": "user1",
-    "receiver": "user2",
-    "content": "Hello, user2!"
-}
+#### **POST /api/v1/oauth2/google**
+```
+POST /api/v1/oauth2/google
+```
+
+#### **POST /api/v1/oauth2/kakao**
+```
+POST /api/v1/oauth2/kakao
 ```
 
 ## 응답 예시
 
-#### **POST /authenticate**
+#### **POST /login**
 ```json
 {
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTcxNjcxOTU0MywiZXhwIjoxNzE2NzU1NTQzfQ.x7w9eXrkG1vrfc4G4r2Q1L1sliImoX6GIJ1ncysEo8Q"
+    "token": "[jwt_token]"
 }
 ```
 
-#### **GET /chat/messages**
-```json
-[
-    {
-        "id": 1,
-        "sender": "user1",
-        "receiver": "user2",
-        "content": "Hello, user2!",
-        "timestamp": 1625247600000
-    },
-    {
-        "id": 2,
-        "sender": "user2",
-        "receiver": "user1",
-        "content": "Hi, user1!",
-        "timestamp": 1625247660000
-    },
-    {
-        "id": 3,
-        "sender": "user1",
-        "receiver": "user2",
-        "content": "How are you?",
-        "timestamp": 1625247700000
-    }
-]
-```
-
-#### **POST /chat/messages**
+#### **GET /test**
 ```json
 {
-    "id": 1,
-    "sender": "user1",
-    "receiver": "user2",
-    "content": "Hello, user2!",
-    "timestamp": 1625247600000
+    "sub": "[email]",
+    "roles": "USER",
+    "iat": 1721607791,
+    "exp": 1721611391
 }
 ```
 
-#### **POST /chat/messages/file**
-
-- `Content-Type: multipart/form-data`
-
-```curl
-curl -X POST "http://yourapi.com/chat/messages/file" \
-     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImlhdCI6MTcxNjcxOTU0MywiZXhwIjoxNzE2NzU1NTQzfQ.x7w9eXrkG1vrfc4G4r2Q1L1sliImoX6GIJ1ncysEo8Q" \
-     -F "sender=user1" \
-     -F "receiver=user2" \
-     -F "content=Hello, user2 with file!" \
-     -F "file=@/path/to/file.txt;type=text/plain"
+#### **POST /api/v1/oauth2/google**
 ```
+{
+    "url": "https://accounts.google.com/o/oauth2/v2/auth?client_id=googleClientId&redirect_uri=http://localhost:8080/api/v1/oauth2/google&response_type=code&scope=email%20profile%20openid&access_type=offline"
+}
+```
+
+#### **POST /api/v1/oauth2/kakao**
+```
+{
+    "url": "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=client_id&redirect_uri=redirect_uri"
+}
+```
+
+## 로그인 성공 시 응답 예시
+
+#### **POST /api/v1/oauth2/google (로그인 성공)**
+```json
+{
+    "token": "[jwt_token]"
+}
+```
+
+#### **POST /api/v1/oauth2/kakao (로그인 성공)**
+```json
+{
+    "token": "[jwt_token]"
+}
+```
+
+## 문제점
+
+#####리다이렉트 주소를 수정해야 하지만 어디로 수정해야 할지 모릅니다.
+#####네이버 소셜 로그인 검수가 실패했습니다.
